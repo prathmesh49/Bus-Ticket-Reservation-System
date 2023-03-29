@@ -1,0 +1,50 @@
+mysql> desc adminaccount;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| username | varchar(10) | NO   |     | NULL    |       |
+| password | varchar(10) | NO   |     | NULL    |       |
+| wallet   | double(5,2) | YES  |     | 0.00    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc bookinginfo;
++-------------+-----------+------+-----+---------+----------------+
+| Field       | Type      | Null | Key | Default | Extra          |
++-------------+-----------+------+-----+---------+----------------+
+| bookingID   | int       | NO   | PRI | NULL    | auto_increment |
+| pasID       | int       | NO   | MUL | NULL    |                |
+| busID       | int       | NO   | MUL | NULL    |                |
+| noOfTickets | int       | NO   |     | NULL    |                |
+| bookingDate | timestamp | YES  |     | NULL    |                |
++-------------+-----------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+mysql> desc bus_info;
++---------------+-------------+------+-----+---------+----------------+
+| Field         | Type        | Null | Key | Default | Extra          |
++---------------+-------------+------+-----+---------+----------------+
+| busid         | int         | NO   | PRI | NULL    | auto_increment |
+| busName       | varchar(10) | NO   |     | NULL    |                |
+| source        | varchar(50) | NO   |     | NULL    |                |
+| destination   | varchar(50) | NO   |     | NULL    |                |
+| busType       | varchar(10) | NO   |     | NULL    |                |
+| departureTime | timestamp   | YES  |     | NULL    |                |
+| arrivalTime   | timestamp   | YES  |     | NULL    |                |
+| totalSeats    | int         | YES  |     | 72      |                |
+| status        | tinyint(1)  | YES  |     | 0       |                |
+| seatPrice     | double(4,2) | NO   |     | NULL    |                |
++---------------+-------------+------+-----+---------+----------------+
+10 rows in set (0.01 sec)
+
+mysql> desc passangerinfo;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| pasID     | int         | NO   | PRI | NULL    | auto_increment |
+| name      | varchar(30) | NO   |     | NULL    |                |
+| username  | varchar(15) | NO   |     | NULL    |                |
+| password  | varchar(15) | NO   |     | NULL    |                |
+| mobile_no | int         | NO   |     | NULL    |                |
+| wallet    | double(5,2) | YES  |     | 0.00    |                |
++-----------+-------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
