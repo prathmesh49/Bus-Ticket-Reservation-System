@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import com.redbus.dao.BusDao;
@@ -22,12 +24,14 @@ public class AdminUI {
 	Scanner sc;
 	BusDao bdao;
 	BufferedReader br;
+	List<BusInfo> showBusList ;
 
 	public AdminUI(Scanner sc) {
 		super();
 		this.sc = sc;
 		this.bdao = new BusDaoIMPL();
 		this.br = new BufferedReader(new InputStreamReader(System.in));
+		this.showBusList = new ArrayList<>();
 	}
 
 	public void mainOpp() {
@@ -42,6 +46,8 @@ public class AdminUI {
 			System.out.println("+----------------------------+\n"
 							  +"| 1. Add a new Bus		     |\n"
 							  +"| 2. Update bus Details      |\n"
+							  +"| 3. Show all Buses          |\n"
+							  +"| 4. Delete bus              |\n"
 							  +"| 0. Log Out                 |\n"
 							  +"+----------------------------+\n");
 			while(!sc.hasNextInt()) {
@@ -56,7 +62,12 @@ public class AdminUI {
 			case 2:
 				updateBus();
 				break;
-		
+			case 3:
+				showAllDetails();
+				break;
+			case 4:
+				deleteBus();
+				break;
 			default:
 				if(choice !=0)
 					System.out.println("Invalid Input, try again!");
@@ -232,8 +243,7 @@ public class AdminUI {
 		
 		System.out.println("Total Seats: ");
 		bus.setTotal_seat(sc.nextInt());
-		System.out.println("Bus In Service: (true/false)");
-		bus.setStatus(sc.nextBoolean());
+		bus.setStatus(true);
 		System.out.println("Per Seat Price: ");
 		bus.setSeat_price(sc.nextDouble());
 
@@ -264,6 +274,27 @@ public class AdminUI {
 		
 		try {
 			bdao.updateBus(bus, bname);
+		} catch (NoRecordFoundException | SomeThingWentWrongException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
+	}
+	public void showAllDetails() {
+		try {
+			showBusList = bdao.getAllBuses();
+			System.out.printf("%-5s %-10s %-20s %-20s %-10s %-19s %-19s %-5s %-20s \n","BusID","BName","Start Journey","End journey","Bus Type","Departure","Arrival Time","Seats","Tickit Price");
+			showBusList.forEach(s -> System.out.printf("%-5d %-10s %-20s %-20s %-10s %-19s %-19s %-5d %-20f \n",s.getBusID(),s.getbName(),s.getSource2(),s.getDestination2(),s.getbType(),s.getDepartur_time().toString(),s.getArrival_time().toString(),s.getTotal_seat(),s.getSeat_price()));
+		} catch (SomeThingWentWrongException e) {
+			System.out.println(e.getLocalizedMessage());
+		} catch (NoRecordFoundException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
+	}
+	public void deleteBus() {
+		System.out.println("Enter Bus ID:");
+		try {
+			bdao.deleteBus(sc.nextInt());
+		} catch (SomeThingWentWrongException e) {
+			System.out.println(e.getLocalizedMessage());
 		} catch (NoRecordFoundException e) {
 			System.out.println(e.getLocalizedMessage());
 		}
