@@ -64,7 +64,7 @@ public class BusDaoIMPL implements BusDao {
 	 *
 	 */
 	@Override
-	public void updateBus(BusInfo bus, String bname) throws NoRecordFoundException {
+	public void updateBus(BusInfo bus, String bname) throws SomeThingWentWrongException, NoRecordFoundException {
 		Connection con = null;
 		try {
 			con = DBUtility.connectToDB();
@@ -77,10 +77,10 @@ public class BusDaoIMPL implements BusDao {
 			if (ps.executeUpdate() > 0) {
 				System.out.println("Bus Details Updated!");
 			} else {
-				System.out.println("Bus Details cannot be Updated");
+				throw new NoRecordFoundException(" No record Found for " + bname);
 			}
 		} catch (SQLException e) {
-			throw new NoRecordFoundException(" Error in updateBus or No record Found" + e.getLocalizedMessage());
+			throw new SomeThingWentWrongException("Error in updateBus " + e.getLocalizedMessage());
 		} finally {
 			try {
 				DBUtility.close(con);
@@ -97,7 +97,7 @@ public class BusDaoIMPL implements BusDao {
 		Connection con = null;
 		try {
 			con = DBUtility.connectToDB();
-			String Insert = "SELECT * FROM bus_info";
+			String Insert = "SELECT * FROM bus_info where status = 1";
 			PreparedStatement ps = con.prepareStatement(Insert);
 
 			ResultSet rs = ps.executeQuery();
@@ -118,9 +118,9 @@ public class BusDaoIMPL implements BusDao {
 				bus.setSeat_price(rs.getDouble(10));
 				blist.add(bus);
 			}
-
+			return blist;
 		} catch (SQLException e) {
-			throw new SomeThingWentWrongException(" Error in getAllBuses" + e.getLocalizedMessage());
+			throw new SomeThingWentWrongException(" Error in getAllBuses " + e.getLocalizedMessage());
 		} finally {
 			try {
 				DBUtility.close(con);
@@ -129,7 +129,34 @@ public class BusDaoIMPL implements BusDao {
 				System.out.println(" Error in close connection " + e.getLocalizedMessage());
 			}
 		}
-		return blist;
+
+	}
+
+	@Override
+	public void deleteBus(int bid) throws SomeThingWentWrongException, NoRecordFoundException {
+		Connection con = null;
+		try {
+			con = DBUtility.connectToDB();
+			String Insert = "UPDATE bus_info SET status = 0 WHERE busid = ?";
+			PreparedStatement ps = con.prepareStatement(Insert);
+			ps.setInt(1, bid);
+
+			if (ps.executeUpdate() > 0) {
+				System.out.println("Bus Deleted!");
+			} else {
+				throw new NoRecordFoundException("No record Found for this " + bid);
+			}
+		} catch (SQLException e) {
+			throw new SomeThingWentWrongException("Error in deleteBus " + e.getLocalizedMessage());
+		} finally {
+			try {
+				DBUtility.close(con);
+			} catch (SQLException e) {
+
+				System.out.println(" Error in close connection " + e.getLocalizedMessage());
+			}
+		}
+
 	}
 
 }
