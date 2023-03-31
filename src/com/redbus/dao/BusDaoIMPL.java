@@ -91,6 +91,12 @@ public class BusDaoIMPL implements BusDao {
 		}
 	}
 
+	/**
+	 * all column values retrieve from the databases
+	 * 
+	 * @param: none
+	 * @throws: SomeThingWentWrongException NoRecordFoundException
+	 */
 	@Override
 	public List<BusInfo> getAllBuses() throws SomeThingWentWrongException, NoRecordFoundException {
 		List<BusInfo> blist = new ArrayList<>();
@@ -132,6 +138,12 @@ public class BusDaoIMPL implements BusDao {
 
 	}
 
+	/**
+	 * delete the bus mean that status is going to 0 means false
+	 * 
+	 * @param: accept the bus id
+	 * @throws: SomeThingWentWrongException, NoRecordFoundException
+	 */
 	@Override
 	public void deleteBus(int bid) throws SomeThingWentWrongException, NoRecordFoundException {
 		Connection con = null;
