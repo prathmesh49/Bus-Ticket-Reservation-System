@@ -3,12 +3,14 @@ package com.redbus.main;
 import java.util.Scanner;
 
 import com.redbus.ui.AdminUI;
+import com.redbus.ui.PassengerUI;
 
 public class Main {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		AdminUI aui = new AdminUI(sc);
+		PassengerUI pui = new PassengerUI(sc);
 		System.out.println("+----------------------------+\n"
 						  +"| Welcome                    |\n"
 						  +"| To                         |\n"
@@ -30,6 +32,9 @@ public class Main {
 			switch (choice) {
 			case 1:
 				aui.mainOpp();
+				break;
+			case 2:
+				pui.main();
 				break;
 
 			default:

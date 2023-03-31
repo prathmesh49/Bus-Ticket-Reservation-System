@@ -5,9 +5,17 @@ public interface Passanger {
 
 	public void setPassID(int passID);
 
-	public String getName();
+	public String getFname();
 
-	public void setName(String name);
+	public void setFname(String fname);
+
+	public String getLname();
+
+	public void setLname(String lname);
+
+	public String getAddress();
+
+	public void setAddress(String address);
 
 	public String getUsername();
 
@@ -17,11 +25,15 @@ public interface Passanger {
 
 	public void setPassword(String password);
 
-	public int getMob_no();
+	public long getMob_no();
 
-	public void setMob_no(int mob_no);
+	public void setMob_no(long mob_no);
 
 	public double getWallet();
 
 	public void setWallet(double wallet);
+
+	public int getIsDelete();
+
+	public void setIsDelete(int isDelete);
 }
