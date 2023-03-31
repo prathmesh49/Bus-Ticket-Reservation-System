@@ -113,6 +113,7 @@ public class BusDaoIMPL implements BusDao {
 
 			while (rs.next()) {
 				BusInfo bus = new BusInfoIMPL();
+				bus.setBusID(rs.getInt(1));
 				bus.setbName(rs.getString(2));
 				bus.setSource2(rs.getString(3));
 				bus.setDestination2(rs.getString(4));

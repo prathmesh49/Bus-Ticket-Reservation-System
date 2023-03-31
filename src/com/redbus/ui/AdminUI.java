@@ -251,6 +251,12 @@ public class AdminUI {
 			bdao.addNewBus(bus);
 		} catch (SomeThingWentWrongException e) {
 			System.out.println(e.getLocalizedMessage());
+		}finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+				System.out.println(e.getLocalizedMessage());
+			}
 		}
 
 	}

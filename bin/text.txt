@@ -41,10 +41,27 @@ mysql> desc passangerinfo;
 | Field     | Type        | Null | Key | Default | Extra          |
 +-----------+-------------+------+-----+---------+----------------+
 | pasID     | int         | NO   | PRI | NULL    | auto_increment |
-| name      | varchar(30) | NO   |     | NULL    |                |
+| fname     | varchar(30) | NO   |     | NULL    |                |
 | username  | varchar(15) | NO   |     | NULL    |                |
 | password  | varchar(15) | NO   |     | NULL    |                |
 | mobile_no | int         | NO   |     | NULL    |                |
 | wallet    | double(5,2) | YES  |     | 0.00    |                |
+| lname     | varchar(30) | NO   |     | NULL    |                |
+| address   | varchar(30) | NO   |     | NULL    |                |
 +-----------+-------------+------+-----+---------+----------------+
-6 rows in set (0.00 sec)
+8 rows in set (0.00 sec)
+
+
+
+pasID, fname, username, password, mobile_no, wallet, lname, address, isDelete
+
+
+bookingID, pasID, busID, noOfTickets, bookingDate, timestamp
+
+
+
+
+
+
+
+
