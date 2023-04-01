@@ -62,6 +62,14 @@ bookingID, pasID, busID, noOfTickets, bookingDate, timestamp
 
 
 
+SELECT *
+FROM bookinginfo b
+INNER JOIN passangerinfo p ON b.pasID = p.pasID
+INNER JOIN bus_info t ON b.busID = t.busID
+where B.pasID = 2;
+
+	 
+
 
 
 

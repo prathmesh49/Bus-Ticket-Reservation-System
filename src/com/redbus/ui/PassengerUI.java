@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.redbus.dao.BookHistoryDao;
+import com.redbus.dao.BookHistoryDaoIMPL;
 import com.redbus.dao.BusDao;
 import com.redbus.dao.BusDaoIMPL;
 import com.redbus.dao.PassengerDao;
 import com.redbus.dao.PassengerDaoIMPL;
+import com.redbus.dto.BookHistory;
 import com.redbus.dto.BusInfo;
 import com.redbus.dto.Passanger;
 import com.redbus.dto.PassangerIMPL;
@@ -23,6 +26,7 @@ public class PassengerUI {
 	PassengerDao pdao;
 	List<BusInfo> showBusList ;
 	BusDao bdao ;
+	BookHistoryDao bhistory;
 
 	public PassengerUI(Scanner sc) {
 		this.br = new BufferedReader(new InputStreamReader(System.in));
@@ -30,6 +34,7 @@ public class PassengerUI {
 		this.pdao = new PassengerDaoIMPL();
 		this.showBusList = new ArrayList<>();
 		this.bdao = new BusDaoIMPL();
+		this.bhistory = new BookHistoryDaoIMPL();
 	}
 
 	public void main() {
@@ -42,8 +47,9 @@ public class PassengerUI {
 		int choice =0;
 		do {
 			System.out.println("+----------------------------+\n"
-							  +"| 1. Show buses 			 |\n"
+							  +"| 1. Show buses              |\n"
 							  +"| 2. Book Ticket             |\n"
+							  +"| 3. Booking Hstory          |\n"
 							  +"| 4. See personel Details    |\n"
 							  +"| 5. Delete My account       |\n"
 							  +"| 0. Log Out!                |\n"
@@ -59,6 +65,9 @@ public class PassengerUI {
 				break;
 			case 2:
 				bui.bookBusTicket();
+				break;
+			case 3:
+				seeBookingHistory();
 				break;
 			case 4:
 				seePersonelDet();
@@ -80,8 +89,8 @@ public class PassengerUI {
 	public void showAllDetails() {
 		try {
 			showBusList = bdao.getAllBuses();
-			System.out.printf("%-5s %-10s %-20s %-20s %-20s %-19s %-19s %-5s %-20s \n","BusID","BName","Start Journey","End journey","Bus Type","Departure","Arrival Time","Seats","Tickit Price");
-			showBusList.forEach(s -> System.out.printf("%-5d %-10s %-20s %-20s %-20s %-19s %-19s %-5d %-20f \n",s.getBusID(),s.getbName(),s.getSource2(),s.getDestination2(),s.getbType(),s.getDepartur_time().toString(),s.getArrival_time().toString(),s.getTotal_seat(),s.getSeat_price()));
+			System.out.printf("%-5s %-10s %-15s %-15s %-20s %-19s %-19s %-5s %-20s \n","BusID","BName","Start Journey","End journey","Bus Type","Departure","Arrival Time","Seats","Tickit Price");
+			showBusList.forEach(s -> System.out.printf("%-5d %-10s %-15s %-15s %-20s %-19s %-19s %-5d %-20f \n",s.getBusID(),s.getbName(),s.getSource2(),s.getDestination2(),s.getbType(),s.getDepartur_time().toString(),s.getArrival_time().toString(),s.getTotal_seat(),s.getSeat_price()));
 		} catch (SomeThingWentWrongException e) {
 			System.out.println(e.getLocalizedMessage());
 		} catch (NoRecordFoundException e) {
@@ -137,6 +146,20 @@ public class PassengerUI {
 			System.out.println("Username : "+pass.getUsername());
 			System.out.println("Mobile No : "+ pass.getMob_no());
 			System.out.println("Wallet Balance : "+pass.getWallet());
+		} catch (SomeThingWentWrongException e) {
+			System.out.println(e.getLocalizedMessage());
+		} catch (NoRecordFoundException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
+	}
+	public void seeBookingHistory() {
+		List<BookHistory> bhlist = new ArrayList<>();
+		try {
+			bhlist = bhistory.getHistoryByPassID(LoggedUser.passID);
+			System.out.printf("%-5s %-15s %-30s %-40s %-8s %-10s \n","BusID","Full Name","Route",
+					"Journey Date & Time","Tickets","Amount");
+			bhlist.forEach(s -> System.out.printf("%-5d %-15s %-30s %-40s %-8d %-10f \n",s.getBusID(),s.getFullname(),
+					s.getRoute(),s.getJourneyTime(),s.getNoOfSeats(),s.getTotalFare()));
 		} catch (SomeThingWentWrongException e) {
 			System.out.println(e.getLocalizedMessage());
 		} catch (NoRecordFoundException e) {
