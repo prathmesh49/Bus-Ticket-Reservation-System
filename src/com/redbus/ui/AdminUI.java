@@ -44,7 +44,7 @@ public class AdminUI {
 		int choice =0;
 		do {
 			System.out.println("+----------------------------+\n"
-							  +"| 1. Add a new Bus		     |\n"
+							  +"| 1. Add a new Bus           |\n"
 							  +"| 2. Update bus Details      |\n"
 							  +"| 3. Show all Buses          |\n"
 							  +"| 4. Delete bus              |\n"
@@ -82,11 +82,11 @@ public class AdminUI {
 		BusInfo bus = new BusInfoIMPL();
 		System.out.println("Bus Name: ");
 		BusName busname = null;
-		System.out.println("1. " + BusName.MohanTravels);
-		System.out.println("2. " + BusName.NakodaTravels);
+		System.out.println("1. " + BusName.Mohan);
+		System.out.println("2. " + BusName.Nakoda);
 		System.out.println("3. " + BusName.Shivaneri);
 		System.out.println("4. " + BusName.Shivshahi);
-		System.out.println("5. " + BusName.VaibhavTravels);
+		System.out.println("5. " + BusName.Vaibhav);
 				
 		int cho = 0;
 		System.out.println("Please Enter Correct Option:");
@@ -97,10 +97,10 @@ public class AdminUI {
 		cho = sc.nextInt();
 		switch (cho) {
 		case 1:
-			busname = BusName.MohanTravels;
+			busname = BusName.Mohan;
 			break;
 		case 2:
-			busname = BusName.NakodaTravels;
+			busname = BusName.Nakoda;
 			break;
 		case 3:
 			busname = BusName.Shivaneri;
@@ -109,7 +109,7 @@ public class AdminUI {
 			busname = BusName.Shivshahi;
 			break;
 		case 5:
-			busname = BusName.VaibhavTravels;
+			busname = BusName.Vaibhav;
 			break;
 
 		default:
@@ -246,17 +246,11 @@ public class AdminUI {
 		bus.setStatus(true);
 		System.out.println("Per Seat Price: ");
 		bus.setSeat_price(sc.nextDouble());
-
+		
 		try {
 			bdao.addNewBus(bus);
 		} catch (SomeThingWentWrongException e) {
 			System.out.println(e.getLocalizedMessage());
-		}finally {
-			try {
-				br.close();
-			} catch (IOException e) {
-				System.out.println(e.getLocalizedMessage());
-			}
 		}
 
 	}
@@ -287,8 +281,8 @@ public class AdminUI {
 	public void showAllDetails() {
 		try {
 			showBusList = bdao.getAllBuses();
-			System.out.printf("%-5s %-10s %-20s %-20s %-10s %-19s %-19s %-5s %-20s \n","BusID","BName","Start Journey","End journey","Bus Type","Departure","Arrival Time","Seats","Tickit Price");
-			showBusList.forEach(s -> System.out.printf("%-5d %-10s %-20s %-20s %-10s %-19s %-19s %-5d %-20f \n",s.getBusID(),s.getbName(),s.getSource2(),s.getDestination2(),s.getbType(),s.getDepartur_time().toString(),s.getArrival_time().toString(),s.getTotal_seat(),s.getSeat_price()));
+			System.out.printf("%-5s %-10s %-15s %-15s %-20s %-19s %-19s %-5s %-20s \n","BusID","BName","Start Journey","End journey","Bus Type","Departure","Arrival Time","Seats","Tickit Price");
+			showBusList.forEach(s -> System.out.printf("%-5d %-10s %-15s %-15s %-20s %-19s %-19s %-5d %-20f \n",s.getBusID(),s.getbName(),s.getSource2(),s.getDestination2(),s.getbType(),s.getDepartur_time().toString(),s.getArrival_time().toString(),s.getTotal_seat(),s.getSeat_price()));
 		} catch (SomeThingWentWrongException e) {
 			System.out.println(e.getLocalizedMessage());
 		} catch (NoRecordFoundException e) {
