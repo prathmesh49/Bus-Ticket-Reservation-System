@@ -1,6 +1,8 @@
 package com.redbus.dto;
 
 public class BookHistoryIMPL implements BookHistory {
+	private String status;
+	private int bookID;
 	private int passID;
 	private int busID;
 	private String fullname;
@@ -82,7 +84,20 @@ public class BookHistoryIMPL implements BookHistory {
 		this.totalFare = totalFare;
 	}
 
-	
-	
+	public int getBookID() {
+		return bookID;
+	}
+
+	public void setBookID(int bookID) {
+		this.bookID = bookID;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 }

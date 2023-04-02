@@ -32,12 +32,57 @@ public class BookHistoryDaoIMPL implements BookHistoryDao {
 
 			while (rs.next()) {
 				BookHistory book = new BookHistoryIMPL();
+				book.setBookID(rs.getInt("bookingID"));
 				book.setBusID(rs.getInt("busID"));
 				book.setFullname(rs.getString("fname") + " " + rs.getString("lname"));
 				book.setJourneyTime(rs.getTimestamp("departureTime").toLocalDateTime().toString() + " "
 						+ rs.getTimestamp("arrivalTime").toLocalDateTime().toString());
 				book.setNoOfSeats(rs.getInt("noOfTickets"));
 				book.setPassID(pasID);
+				book.setRoute(rs.getString("source") + " to " + rs.getString("destination"));
+				book.setTotalFare(rs.getInt("noOfTickets") * rs.getDouble("seatPrice"));
+				blist.add(book);
+			}
+			return blist;
+		} catch (SQLException e) {
+			throw new SomeThingWentWrongException(" Error in getHistoryByPassID " + e.getLocalizedMessage());
+		} finally {
+			try {
+				DBUtility.close(con);
+			} catch (SQLException e) {
+
+				System.out.println(" Error in close connection " + e.getLocalizedMessage());
+			}
+		}
+	}
+
+	@Override
+	public List<BookHistory> getHistoryByPassIDForAdmin() throws SomeThingWentWrongException, NoRecordFoundException {
+		List<BookHistory> blist = new ArrayList<>();
+		Connection con = null;
+		try {
+			con = DBUtility.connectToDB();
+			String Insert = "SELECT b.isCancel, p.pasID, b.busID, p.fname, p.lname, t.busName, t.source, t.destination, t.departureTime, t.arrivalTime, b.noOfTickets, \r\n"
+					+ "(b.noOfTickets * t.seatPrice) TotalFare\r\n" + "FROM bookinginfo b\r\n"
+					+ "INNER JOIN passangerinfo p ON b.pasID = p.pasID\r\n"
+					+ "INNER JOIN bus_info t ON b.busID = t.busID\r\n" + "ORDER BY p.pasID;";
+			PreparedStatement ps = con.prepareStatement(Insert);
+
+			ResultSet rs = ps.executeQuery();
+			if (!rs.isBeforeFirst()) {
+				throw new NoRecordFoundException("No Record Found ");
+			}
+
+			while (rs.next()) {
+				BookHistory book = new BookHistoryIMPL();
+				book.setBookID(rs.getInt("bookingID"));
+				book.setStatus(rs.getInt("isCancel") == 1 ? "-" : "Canceled");
+				book.setBusID(rs.getInt("busID"));
+				book.setFullname(rs.getString("fname") + " " + rs.getString("lname"));
+				book.setJourneyTime(rs.getTimestamp("departureTime").toLocalDateTime().toString() + " "
+						+ rs.getTimestamp("arrivalTime").toLocalDateTime().toString());
+				book.setNoOfSeats(rs.getInt("noOfTickets"));
+				book.setPassID(rs.getInt("pasID"));
 				book.setRoute(rs.getString("source") + " to " + rs.getString("destination"));
 				book.setTotalFare(rs.getInt("noOfTickets") * rs.getDouble("seatPrice"));
 				blist.add(book);

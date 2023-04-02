@@ -35,6 +35,7 @@ public class AdminUI {
 	}
 
 	public void mainOpp() {
+		BookingUI bookui = new BookingUI(sc);
 		System.out.println("+----------------------------+\n"
 						  +"| Welcome                    |\n"
 						  +"| To                         |\n"
@@ -48,6 +49,7 @@ public class AdminUI {
 							  +"| 2. Update bus Details      |\n"
 							  +"| 3. Show all Buses          |\n"
 							  +"| 4. Delete bus              |\n"
+							  +"| 5. See booking history     |\n"
 							  +"| 0. Log Out                 |\n"
 							  +"+----------------------------+\n");
 			while(!sc.hasNextInt()) {
@@ -67,6 +69,9 @@ public class AdminUI {
 				break;
 			case 4:
 				deleteBus();
+				break;
+			case 5:
+				bookui.seeBookingOption();
 				break;
 			default:
 				if(choice !=0)

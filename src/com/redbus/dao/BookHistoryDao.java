@@ -8,4 +8,6 @@ import com.redbus.exception.SomeThingWentWrongException;
 
 public interface BookHistoryDao {
 	public List<BookHistory> getHistoryByPassID(int pasID) throws SomeThingWentWrongException, NoRecordFoundException;
+	
+	public List<BookHistory> getHistoryByPassIDForAdmin() throws SomeThingWentWrongException, NoRecordFoundException; 
 }

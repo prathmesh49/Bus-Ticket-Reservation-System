@@ -3,12 +3,16 @@ package com.redbus.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.redbus.dao.BookHistoryDao;
 import com.redbus.dao.BookHistoryDaoIMPL;
+import com.redbus.dao.BookingDao;
+import com.redbus.dao.BookingDaoIMPL;
 import com.redbus.dao.BusDao;
 import com.redbus.dao.BusDaoIMPL;
 import com.redbus.dao.PassengerDao;
@@ -50,8 +54,10 @@ public class PassengerUI {
 							  +"| 1. Show buses              |\n"
 							  +"| 2. Book Ticket             |\n"
 							  +"| 3. Booking Hstory          |\n"
-							  +"| 4. See personel Details    |\n"
-							  +"| 5. Delete My account       |\n"
+							  +"| 4. Cancel booking          |\n"
+							  +"| 5. See personel Details    |\n"
+							  +"| 6. Edit personel details   |\n"
+							  +"| 7. Delete My account       |\n"
 							  +"| 0. Log Out!                |\n"
 							  +"+----------------------------+\n");
 			while(!sc.hasNextInt()) {
@@ -70,9 +76,15 @@ public class PassengerUI {
 				seeBookingHistory();
 				break;
 			case 4:
-				seePersonelDet();
+				cancelTicket();
 				break;
 			case 5:
+				seePersonelDet();
+				break;
+			case 6:
+				updatePersonelDetails();
+				break;
+			case 7:
 				deleteMyAcc();
 				choice =0;
 				break;
@@ -81,6 +93,7 @@ public class PassengerUI {
 				if(choice !=0)
 					System.out.println("Invalid Input, try again!");
 				else
+					LoggedUser.passID = 0;
 					System.out.println("Exited!");
 				break;
 			}
@@ -89,7 +102,7 @@ public class PassengerUI {
 	public void showAllDetails() {
 		try {
 			showBusList = bdao.getAllBuses();
-			System.out.printf("%-5s %-10s %-15s %-15s %-20s %-19s %-19s %-5s %-20s \n","BusID","BName","Start Journey","End journey","Bus Type","Departure","Arrival Time","Seats","Tickit Price");
+			System.out.printf("%-5s %-10s %-15s %-15s %-20s %-19s %-19s %-5s %-20s \n","BusNo","BName","Start Journey","End journey","Bus Type","Departure","Arrival Time","Seats","Tickit Price");
 			showBusList.forEach(s -> System.out.printf("%-5d %-10s %-15s %-15s %-20s %-19s %-19s %-5d %-20f \n",s.getBusID(),s.getbName(),s.getSource2(),s.getDestination2(),s.getbType(),s.getDepartur_time().toString(),s.getArrival_time().toString(),s.getTotal_seat(),s.getSeat_price()));
 		} catch (SomeThingWentWrongException e) {
 			System.out.println(e.getLocalizedMessage());
@@ -156,14 +169,105 @@ public class PassengerUI {
 		List<BookHistory> bhlist = new ArrayList<>();
 		try {
 			bhlist = bhistory.getHistoryByPassID(LoggedUser.passID);
-			System.out.printf("%-5s %-15s %-30s %-40s %-8s %-10s \n","BusID","Full Name","Route",
+			System.out.printf("%-5s %-5s %-15s %-30s %-40s %-8s %-10s \n","sr no","BusID","Full Name","Route",
 					"Journey Date & Time","Tickets","Amount");
-			bhlist.forEach(s -> System.out.printf("%-5d %-15s %-30s %-40s %-8d %-10f \n",s.getBusID(),s.getFullname(),
-					s.getRoute(),s.getJourneyTime(),s.getNoOfSeats(),s.getTotalFare()));
+			int i =1;
+			for(BookHistory s : bhlist)
+			 System.out.printf("%-5d %-5d %-15s %-30s %-40s %-8d %-10f \n",(i++),s.getBusID(),s.getFullname(),
+					s.getRoute(),s.getJourneyTime(),s.getNoOfSeats(),s.getTotalFare());
 		} catch (SomeThingWentWrongException e) {
 			System.out.println(e.getLocalizedMessage());
 		} catch (NoRecordFoundException e) {
 			System.out.println(e.getLocalizedMessage());
+		}
+	}
+	public void updatePersonelDetails() {
+		Passanger pas = new PassangerIMPL();
+		try {
+			System.out.println("First Name: ");
+			pas.setFname(sc.next());
+			System.out.println("Last Name: ");
+			pas.setLname(sc.next());
+			System.out.println("Username: ");
+			pas.setUsername(sc.next());
+			System.out.println("Password: ");
+			pas.setPassword(sc.next());
+			System.out.println("Mobile No: ");
+			pas.setMob_no(sc.nextLong());
+			System.out.println("Address: ");
+			try {
+				pas.setAddress(br.readLine());
+			} catch (IOException e) {
+				System.out.println(e.getLocalizedMessage());
+			}
+			pas.setPassID(LoggedUser.passID);
+			pas.setIsDelete(1);
+		} catch (Exception e) {
+			System.out.println("Invalid Input, try again! ");
+		}
+		try {
+			try {
+				pdao.updatePassengerDet(pas);
+			} catch (NoRecordFoundException e) {
+				System.out.println(e.getLocalizedMessage());
+			}
+		} catch (SomeThingWentWrongException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
+	}
+	public void cancelTicket() {
+		List<BusInfo> busList = new ArrayList<>();
+		try {
+			busList = bdao.getAllBuses();
+			
+		} catch (SomeThingWentWrongException e) {
+			System.out.println(e.getLocalizedMessage());
+		} catch (NoRecordFoundException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
+		List<BookHistory> bhlist = new ArrayList<>();
+		try {
+			bhlist = bhistory.getHistoryByPassID(LoggedUser.passID);
+		} catch (SomeThingWentWrongException e) {
+			System.out.println(e.getLocalizedMessage());
+		} catch (NoRecordFoundException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
+		System.out.printf("%-5s %-5s %-25s %-30s %-40s %-8s %-10s \n","sr no","BusID","Full Name","Route",
+				"Journey Date & Time","Tickets","Amount");
+		int i =1;
+		for(BookHistory s : bhlist)
+		 System.out.printf("%-5d %-5d %-25s %-30s %-40s %-8d %-10f \n",(i++),s.getBusID(),s.getFullname(),
+				s.getRoute(),s.getJourneyTime(),s.getNoOfSeats(),s.getTotalFare());
+		
+		System.out.println("Enter the sr no : ");
+		while(!sc.hasNextInt()) {
+			sc.next();
+			System.out.println("Invalid Input, try again!");
+		}
+		int idx = sc.nextInt();
+		int bookID = bhlist.get(idx-1).getBookID();
+		int busNo = bhlist.get(idx-1).getBusID();
+		LocalDateTime depTime = null;
+		
+		for(int j=0 ; j<busList.size(); j++ ) {
+			if(busList.get(j).getBusID()==busNo) {
+				depTime = busList.get(j).getDepartur_time();
+			}
+		}
+		long remainTime = ChronoUnit.HOURS.between(LocalDateTime.now(),depTime);
+		
+		if(remainTime > 12l) {
+			BookingDao bookdao = new BookingDaoIMPL();
+			try {
+				bookdao.updateIsCancel(bookID);
+			} catch (SomeThingWentWrongException e) {
+				System.out.println(e.getLocalizedMessage());
+			} catch (NoRecordFoundException e) {
+				System.out.println(e.getLocalizedMessage());
+			}
+		}else {
+			System.out.println("Ticket can't be cancel!");
 		}
 	}
 }
