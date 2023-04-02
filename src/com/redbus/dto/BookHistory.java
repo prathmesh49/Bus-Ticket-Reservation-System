@@ -1,6 +1,10 @@
 package com.redbus.dto;
 
 public interface BookHistory {
+	public int getBookID();
+
+	public void setBookID(int bookID);
+
 	public int getPassID();
 
 	public void setPassID(int passID);
@@ -28,4 +32,8 @@ public interface BookHistory {
 	public double getTotalFare();
 
 	public void setTotalFare(double totalFare);
+
+	public String getStatus();
+
+	public void setStatus(String status);
 }

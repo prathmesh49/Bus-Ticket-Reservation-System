@@ -68,7 +68,47 @@ INNER JOIN passangerinfo p ON b.pasID = p.pasID
 INNER JOIN bus_info t ON b.busID = t.busID
 where B.pasID = 2;
 
-	 
+	
+	
+SELECT TIMEDIFF(departureTime, bookingDate) diff FROM bookinginfo t
+left join bus_info b
+on t.busid = b.busid
+where diff > 12:00:00
+group by bookingID
+having bookingid = 3; 
+
+
+
+SELECT TIMEDIFF(departureTime, bookingDate) diff 
+FROM bookinginfo t
+LEFT JOIN bus_info b ON t.busid = b.busid
+WHERE TIMEDIFF(departureTime, bookingDate) > '12:00:00'
+GROUP BY bookingID
+HAVING bookingID = 3;
+
+update bookinginfo set iscancel = 0 where (SELECT TIMEDIFF(departureTime, bookingDate) diff 
+FROM bookinginfo t
+LEFT JOIN bus_info b ON t.busid = b.busid
+WHERE TIMEDIFF(departureTime, bookingDate) > '12:00:00'
+GROUP BY bookingID
+HAVING bookingID = 3) > '12:00:00';
+
+
+SELECT b.isCancel, p.pasID, b.busID, p.fname, p.lname, t.busName, t.source, t.destination, t.departureTime, t.arrivalTime, b.noOfTickets, 
+(b.noOfTickets * t.seatPrice) TotalFare
+FROM bookinginfo b
+INNER JOIN passangerinfo p ON b.pasID = p.pasID
+INNER JOIN bus_info t ON b.busID = t.busID
+ORDER BY p.pasID;
+
+
+SELECT IF(b.isCancel = 1, '-', 'Canceled') status, p.pasID, b.busID, p.fname, p.lname, t.busName, t.source, t.destination, t.departureTime, t.arrivalTime, b.noOfTickets, 
+(b.noOfTickets * t.seatPrice) TotalFare
+FROM bookinginfo b
+INNER JOIN passangerinfo p ON b.pasID = p.pasID
+INNER JOIN bus_info t ON b.busID = t.busID
+ORDER BY p.pasID;
+
 
 
 
