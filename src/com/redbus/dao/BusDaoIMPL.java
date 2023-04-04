@@ -64,16 +64,16 @@ public class BusDaoIMPL implements BusDao {
 	 *
 	 */
 	@Override
-	public void updateBus(BusInfo bus, String bname) throws SomeThingWentWrongException, NoRecordFoundException {
+	public void updateBus(BusInfo bus, int bname) throws SomeThingWentWrongException, NoRecordFoundException {
 		Connection con = null;
 		try {
 			con = DBUtility.connectToDB();
-			String Insert = "UPDATE bus_info SET busName = ?, busType = ?, totalSeats = ? WHERE busName = ?";
+			String Insert = "UPDATE bus_info SET busName = ?, busType = ?, totalSeats = ? WHERE busid = ?";
 			PreparedStatement ps = con.prepareStatement(Insert);
 			ps.setString(1, bus.getbName());
 			ps.setString(2, bus.getbType());
 			ps.setInt(3, bus.getTotal_seat());
-			ps.setString(4, bname);
+			ps.setInt(4, bname);
 			if (ps.executeUpdate() > 0) {
 				System.out.println("Bus Details Updated!");
 			} else {
