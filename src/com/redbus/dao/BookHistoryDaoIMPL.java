@@ -62,10 +62,13 @@ public class BookHistoryDaoIMPL implements BookHistoryDao {
 		Connection con = null;
 		try {
 			con = DBUtility.connectToDB();
-			String Insert = "SELECT b.isCancel, p.pasID, b.busID, p.fname, p.lname, t.busName, t.source, t.destination, t.departureTime, t.arrivalTime, b.noOfTickets, \r\n"
-					+ "(b.noOfTickets * t.seatPrice) TotalFare\r\n" + "FROM bookinginfo b\r\n"
+			String Insert = "SELECT b.isCancel, p.pasID, b.busID, p.fname, p.lname, b.bookingID, t.busName, t.source, t.destination, t.departureTime, t.arrivalTime, b.noOfTickets, \r\n"
+					+ "b.noOfTickets, t.seatPrice\r\n"
+					+ "FROM bookinginfo b\r\n"
 					+ "INNER JOIN passangerinfo p ON b.pasID = p.pasID\r\n"
-					+ "INNER JOIN bus_info t ON b.busID = t.busID\r\n" + "ORDER BY p.pasID;";
+					+ "INNER JOIN bus_info t ON b.busID = t.busID\r\n"
+					+ "WHERE b.isCancel = 1\r\n"
+					+ "ORDER BY p.pasID";
 			PreparedStatement ps = con.prepareStatement(Insert);
 
 			ResultSet rs = ps.executeQuery();
