@@ -77,12 +77,12 @@ public class BookingUI {
 	public void seeAllBookHistory() {
 		List<BookHistory> bhlist = new ArrayList<>();
 		try {
-			bhlist = bhistory.getHistoryByPassID(LoggedUser.passID);
-			System.out.printf("%-5s %-9s %-5s %-15s %-30s %-40s %-8s %-10s \n","sr no","Status","BusID","Full Name","Route",
+			bhlist = bhistory.getHistoryByPassIDForAdmin();
+			System.out.printf("%-5s %-10s %-5s %-25s %-20s %-40s %-8s %-10s \n","sr no","Status","BusID","Full Name","Route",
 					"Journey Date & Time","Tickets","Amount");
 			int i =1;
 			for(BookHistory s : bhlist)
-			 System.out.printf("%-5d %-8s %-5d %-15s %-30s %-40s %-8d %-10f \n",(i++),s.getStatus(),s.getBusID(),s.getFullname(),
+			 System.out.printf("%-5d %-10s %-5d %-25s %-20s %-40s %-8d %-10f \n",(i++),s.getStatus(),s.getBusID(),s.getFullname(),
 					s.getRoute(),s.getJourneyTime(),s.getNoOfSeats(),s.getTotalFare());
 		} catch (SomeThingWentWrongException e) {
 			System.out.println(e.getLocalizedMessage());

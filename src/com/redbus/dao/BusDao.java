@@ -9,7 +9,7 @@ import com.redbus.exception.SomeThingWentWrongException;
 public interface BusDao {
 	public void addNewBus(BusInfo bus) throws SomeThingWentWrongException;
 
-	public void updateBus(BusInfo bus, String bname) throws SomeThingWentWrongException, NoRecordFoundException;
+	public void updateBus(BusInfo bus, int bno) throws SomeThingWentWrongException, NoRecordFoundException;
 	
 	public List<BusInfo> getAllBuses() throws SomeThingWentWrongException, NoRecordFoundException;
 	

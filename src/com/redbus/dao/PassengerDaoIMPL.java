@@ -171,7 +171,7 @@ public class PassengerDaoIMPL implements PassengerDao {
 		Connection con = null;
 		try {
 			con = DBUtility.connectToDB();
-			String Insert = "Select username, password from passangerinfO where username = ?";
+			String Insert = "Select * from passangerinfo where username = ?";
 			PreparedStatement ps = con.prepareStatement(Insert);
 			ps.setString(1, user);
 			

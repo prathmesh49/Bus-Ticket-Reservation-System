@@ -169,7 +169,7 @@ public class PassengerUI {
 		List<BookHistory> bhlist = new ArrayList<>();
 		try {
 			bhlist = bhistory.getHistoryByPassID(LoggedUser.passID);
-			System.out.printf("%-5s %-5s %-15s %-30s %-40s %-8s %-10s \n","sr no","BusID","Full Name","Route",
+			System.out.printf("%-5s %-5s %-15s %-30s %-40s %-8s %-10s \n","sr no","BusNo","Full Name","Route",
 					"Journey Date & Time","Tickets","Amount");
 			int i =1;
 			for(BookHistory s : bhlist)
@@ -233,7 +233,7 @@ public class PassengerUI {
 		} catch (NoRecordFoundException e) {
 			System.out.println(e.getLocalizedMessage());
 		}
-		System.out.printf("%-5s %-5s %-25s %-30s %-40s %-8s %-10s \n","sr no","BusID","Full Name","Route",
+		System.out.printf("%-5s %-5s %-25s %-30s %-40s %-8s %-10s \n","sr no","BusNo","Full Name","Route",
 				"Journey Date & Time","Tickets","Amount");
 		int i =1;
 		for(BookHistory s : bhlist)

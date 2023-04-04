@@ -52,7 +52,7 @@ public class Main {
 			}
 		}while(choice != 0);
 		sc.close();
-	}
+	}  
 	static boolean adminlog(Scanner sc) {
 		System.out.println("Enter Username: ");
 		String s1 = sc.next();
@@ -70,8 +70,7 @@ public class Main {
 		try {
 			ans = pdao.passLogIn(s1, s2);
 		} catch (SomeThingWentWrongException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getLocalizedMessage());
 		}
 		return ans;
 	}
