@@ -1,6 +1,10 @@
 ### royal-receipt-2269 (project code)
 # Bus Ticket Resurvation System
 
+
+<img src="https://www.travelopro.com/public/images/contents/Bus-Reservation-System1.jpg" >
+
+
 # Introduction
 
 The main objective of this project is to cater to the needs of the passenger who are
@@ -18,6 +22,15 @@ Passenger and Administrator. Users can book/reserve their tickets one day before
 
 # Key Features
 
+1. Administrator User
+-  Add a new Bus        
+-  Update bus Details    
+-  Show all Bus operation      
+-  Delete bus     
+-  Watch booking history    
+-  Log Out 
+
+2. Passenger User
 
 # Tools & Technology used
 
@@ -31,6 +44,8 @@ Passenger and Administrator. Users can book/reserve their tickets one day before
 
 > Github
 
-# Methods
+# For Detailed Explanation
 
-#                                              Thanks For Reading
+<a href="https://drive.google.com/file/d/1MZrkSJZufL4ewJXoQzmdEP44kPxNruy_/view?usp=sharing" >Click here</a>
+
+# Thanks For Reading
