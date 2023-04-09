@@ -31,6 +31,16 @@ Passenger and Administrator. Users can book/reserve their tickets one day before
 -  Log Out 
 
 2. Passenger User
+-  Sign In
+-  Sign Up
+-  Show buses            
+-  Book Ticket             
+-  Booking History          
+-  Cancel booking          
+-  See personel Details    
+-  Edit personel details   
+-  Delete My account       
+-  Log Out!
 
 # Tools & Technology used
 
