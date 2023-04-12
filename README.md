@@ -22,7 +22,7 @@ Passenger and Administrator. Users can book/reserve their tickets one day before
 
 # Flow Diagram
 
-<img src="./flowDiagram.png" alt=""/>
+<img src="https://www.linkpicture.com/q/flowDiagram.png" alt="">
 
 # Key Features
 
