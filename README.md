@@ -20,6 +20,10 @@ Passenger and Administrator. Users can book/reserve their tickets one day before
 
 <img src="https://www.linkpicture.com/q/Redbus_1.png" alt="">
 
+# Flow Diagram
+
+<img src="./flowDiagram.png" alt=""/>
+
 # Key Features
 
 1. Administrator User
