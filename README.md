@@ -1,5 +1,5 @@
 ### royal-receipt-2269 (project code)
-# Bus Ticket Resurvation System
+# Bus Ticket Reservation System
 
 
 <img src="https://www.travelopro.com/public/images/contents/Bus-Reservation-System1.jpg" >
